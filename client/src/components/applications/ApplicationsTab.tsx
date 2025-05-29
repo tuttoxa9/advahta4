@@ -310,14 +310,14 @@ export function ApplicationsTab() {
             </div>
 
             <Select
-              value={filters.status}
-              onValueChange={(value) => setFilters({ ...filters, status: value })}
+              value={filters.status || "all"}
+              onValueChange={(value) => setFilters({ ...filters, status: value === "all" ? "" : value })}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Фильтр по статусу" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все статусы</SelectItem>
+                <SelectItem value="all">Все статусы</SelectItem>
                 <SelectItem value="new">Новые</SelectItem>
                 <SelectItem value="viewed">Просмотренные</SelectItem>
                 <SelectItem value="contacted">Обработанные</SelectItem>
@@ -326,14 +326,14 @@ export function ApplicationsTab() {
             </Select>
 
             <Select
-              value={filters.period}
-              onValueChange={(value) => setFilters({ ...filters, period: value })}
+              value={filters.period || "all"}
+              onValueChange={(value) => setFilters({ ...filters, period: value === "all" ? "" : value })}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Период" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все время</SelectItem>
+                <SelectItem value="all">Все время</SelectItem>
                 <SelectItem value="today">Сегодня</SelectItem>
                 <SelectItem value="week">За неделю</SelectItem>
                 <SelectItem value="month">За месяц</SelectItem>
