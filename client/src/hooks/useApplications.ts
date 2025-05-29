@@ -22,9 +22,9 @@ export const useApplications = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    status: "",
-    vacancyId: "",
-    period: "",
+    status: "all",
+    vacancyId: "all",
+    period: "all",
     search: ""
   });
   const [stats, setStats] = useState({
@@ -85,7 +85,7 @@ export const useApplications = () => {
       }
 
       // Применяем фильтр по периоду
-      if (filters.period) {
+      if (filters.period && filters.period !== "all") {
         const now = new Date();
         let startDate = new Date();
 
@@ -99,7 +99,6 @@ export const useApplications = () => {
           case "month":
             startDate.setMonth(now.getMonth() - 1);
             break;
-          case "all":
           default:
             startDate = new Date(0); // Показать все
             break;

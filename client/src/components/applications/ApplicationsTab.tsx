@@ -317,7 +317,7 @@ export function ApplicationsTab() {
                 <SelectValue placeholder="Фильтр по статусу" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все статусы</SelectItem>
+                <SelectItem value="all">Все статусы</SelectItem>
                 <SelectItem value="new">Новые</SelectItem>
                 <SelectItem value="viewed">Просмотренные</SelectItem>
                 <SelectItem value="contacted">Обработанные</SelectItem>
@@ -333,7 +333,7 @@ export function ApplicationsTab() {
                 <SelectValue placeholder="Период" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все время</SelectItem>
+                <SelectItem value="all">Все время</SelectItem>
                 <SelectItem value="today">Сегодня</SelectItem>
                 <SelectItem value="week">За неделю</SelectItem>
                 <SelectItem value="month">За месяц</SelectItem>
