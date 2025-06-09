@@ -23,14 +23,14 @@ export function VacancyCardSkeleton() {
           <Skeleton className="h-4 w-20" />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
       </div>
-      
+
       <div className="flex items-center justify-end space-x-2">
         <Skeleton className="h-8 w-8" />
         <Skeleton className="h-8 w-8" />
@@ -51,15 +51,15 @@ export function ApplicationCardSkeleton() {
         </div>
         <Skeleton className="h-6 w-16" />
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
       </div>
-      
+
       <Skeleton className="h-16 w-full" />
-      
+
       <div className="flex items-center justify-end space-x-2">
         <Skeleton className="h-8 w-20" />
         <Skeleton className="h-8 w-20" />
@@ -81,14 +81,14 @@ export function CompanyCardSkeleton() {
         </div>
         <Skeleton className="h-6 w-6" />
       </div>
-      
+
       <Skeleton className="h-16 w-full" />
-      
+
       <div className="space-y-2">
         <Skeleton className="h-4 w-3/4" />
         <Skeleton className="h-4 w-1/2" />
       </div>
-      
+
       <div className="flex items-center space-x-2 pt-4 border-t border-border">
         <Skeleton className="h-8 flex-1" />
         <Skeleton className="h-8 w-8" />
@@ -107,6 +107,49 @@ export function StatCardSkeleton() {
         </div>
         <Skeleton className="w-12 h-12 rounded-xl" />
       </div>
+    </div>
+  );
+}
+
+export function ReviewCardSkeleton() {
+  return (
+    <div className="border border-border rounded-lg p-6 space-y-4">
+      <div className="flex items-start justify-between">
+        <div className="space-y-2 flex-1">
+          <div className="flex items-center gap-3">
+            <div className="flex space-x-1">
+              {Array.from({ length: 5 }, (_, i) => (
+                <Skeleton key={i} className="h-4 w-4" />
+              ))}
+            </div>
+            <Skeleton className="h-4 w-8" />
+            <Skeleton className="h-6 w-16" />
+          </div>
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-6 w-24" />
+          </div>
+        </div>
+        <Skeleton className="h-8 w-8" />
+      </div>
+
+      <Skeleton className="h-16 w-full" />
+
+      <Skeleton className="h-3 w-32" />
+    </div>
+  );
+}
+
+interface SkeletonLoaderProps {
+  count?: number;
+}
+
+export function SkeletonLoader({ count = 3 }: SkeletonLoaderProps) {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: count }, (_, i) => (
+        <ReviewCardSkeleton key={i} />
+      ))}
     </div>
   );
 }

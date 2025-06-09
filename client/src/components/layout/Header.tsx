@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Briefcase, FileText, Building, LogOut, User, Settings } from "lucide-react";
+import { Briefcase, FileText, Building, LogOut, User, Settings, Star } from "lucide-react";
 import { useHaptics } from "@/lib/haptics";
 
 interface HeaderProps {
@@ -19,6 +19,7 @@ export function Header({ currentTab, onTabChange }: HeaderProps) {
     { id: "vacancies", label: "Вакансии", icon: Briefcase },
     { id: "applications", label: "Заявки", icon: FileText },
     { id: "companies", label: "Компании", icon: Building },
+    { id: "reviews", label: "Отзывы", icon: Star },
     { id: "settings", label: "Настройки", icon: Settings },
   ];
 

@@ -69,6 +69,25 @@ export interface CompanyFormData {
   website?: string;
 }
 
+export interface Review {
+  id: string;
+  stars: number; // 1-5
+  text: string;
+  date: Timestamp;
+  shiftType: string;
+  approved: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface ReviewFormData {
+  stars: number;
+  text: string;
+  date: Date;
+  shiftType: string;
+  approved: boolean;
+}
+
 export interface AuthFormData {
   email: string;
   password: string;

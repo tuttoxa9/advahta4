@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { VacanciesTab } from "@/components/vacancies/VacanciesTab";
 import { ApplicationsTab } from "@/components/applications/ApplicationsTab";
 import { CompaniesTab } from "@/components/companies/CompaniesTab";
+import { ReviewsTab } from "@/components/reviews/ReviewsTab";
 import { SettingsTab } from "@/components/settings/SettingsTab";
 
 export function Dashboard() {
@@ -16,6 +17,8 @@ export function Dashboard() {
         return <ApplicationsTab />;
       case "companies":
         return <CompaniesTab />;
+      case "reviews":
+        return <ReviewsTab />;
       case "settings":
         return <SettingsTab />;
       default:
