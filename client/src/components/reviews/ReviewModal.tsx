@@ -29,24 +29,33 @@ interface ReviewModalProps {
 }
 
 const defaultShiftTypes = [
+  'Вахтовый метод',
   'Дневная смена',
   'Ночная смена',
-  'Вахта 15/15',
-  'Вахта 30/30',
   'Сменный график',
   'Гибкий график',
 ];
+
+// Функция для генерации случайной даты от 2021 года до мая 2025
+const generateRandomDate = (): Date => {
+  const startDate = new Date(2021, 0, 1); // 1 января 2021
+  const endDate = new Date(2025, 4, 31); // 31 мая 2025
+  const timeDiff = endDate.getTime() - startDate.getTime();
+  const randomTime = Math.random() * timeDiff;
+  return new Date(startDate.getTime() + randomTime);
+};
 
 export function ReviewModal({ isOpen, onClose, onSubmit, review, shiftTypes }: ReviewModalProps) {
   const [formData, setFormData] = useState<ReviewFormData>({
     stars: 5,
     text: '',
     date: new Date(),
-    shiftType: '',
+    shiftType: 'Вахтовый метод',
     approved: true,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [dateInputValue, setDateInputValue] = useState('');
   const haptics = useHaptics();
 
   // Объединяем типы смен из данных и предопределенные
@@ -54,21 +63,26 @@ export function ReviewModal({ isOpen, onClose, onSubmit, review, shiftTypes }: R
 
   useEffect(() => {
     if (review) {
+      const reviewDate = review.date.toDate ? review.date.toDate() : new Date(review.date);
       setFormData({
         stars: review.stars,
         text: review.text,
-        date: review.date.toDate ? review.date.toDate() : new Date(review.date),
+        date: reviewDate,
         shiftType: review.shiftType,
         approved: review.approved,
       });
+      setDateInputValue(format(reviewDate, 'dd.MM.yyyy'));
     } else {
+      // Генерируем случайную дату при создании нового отзыва
+      const randomDate = generateRandomDate();
       setFormData({
         stars: 5,
         text: '',
-        date: new Date(),
-        shiftType: '',
+        date: randomDate,
+        shiftType: 'Вахтовый метод',
         approved: true,
       });
+      setDateInputValue(format(randomDate, 'dd.MM.yyyy'));
     }
     setErrors({});
   }, [review, isOpen]);
@@ -114,6 +128,35 @@ export function ReviewModal({ isOpen, onClose, onSubmit, review, shiftTypes }: R
   const handleStarClick = (rating: number) => {
     haptics.buttonPress();
     setFormData(prev => ({ ...prev, stars: rating }));
+  };
+
+  const handleDateInputChange = (value: string) => {
+    setDateInputValue(value);
+
+    // Пытаемся распарсить дату в формате DD.MM.YYYY
+    const dateRegex = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+    const match = value.match(dateRegex);
+
+    if (match) {
+      const [, day, month, year] = match;
+      const parsedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+      // Проверяем, что дата валидна
+      if (!isNaN(parsedDate.getTime()) &&
+          parsedDate.getDate() === parseInt(day) &&
+          parsedDate.getMonth() === parseInt(month) - 1 &&
+          parsedDate.getFullYear() === parseInt(year)) {
+        setFormData(prev => ({ ...prev, date: parsedDate }));
+      }
+    }
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date) {
+      setFormData(prev => ({ ...prev, date }));
+      setDateInputValue(format(date, 'dd.MM.yyyy'));
+      setIsCalendarOpen(false);
+    }
   };
 
   const renderStars = () => {
@@ -162,37 +205,38 @@ export function ReviewModal({ isOpen, onClose, onSubmit, review, shiftTypes }: R
           {/* Дата */}
           <div className="space-y-2">
             <Label>Дата смены *</Label>
-            <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !formData.date && "text-muted-foreground"
-                  )}
-                >
-                  <Calendar className="mr-2 h-4 w-4" />
-                  {formData.date ? (
-                    format(formData.date, "PPP", { locale: ru })
-                  ) : (
-                    <span>Выберите дату</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <CalendarComponent
-                  mode="single"
-                  selected={formData.date}
-                  onSelect={(date) => {
-                    if (date) {
-                      setFormData(prev => ({ ...prev, date }));
-                      setIsCalendarOpen(false);
-                    }
-                  }}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="ДД.ММ.ГГГГ"
+                value={dateInputValue}
+                onChange={(e) => handleDateInputChange(e.target.value)}
+                className="flex-1"
+                maxLength={10}
+              />
+              <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="shrink-0"
+                  >
+                    <Calendar className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent
+                    mode="single"
+                    selected={formData.date}
+                    onSelect={handleDateSelect}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Введите дату в формате ДД.ММ.ГГГГ или выберите в календаре
+            </p>
           </div>
 
           {/* Тип смены */}
