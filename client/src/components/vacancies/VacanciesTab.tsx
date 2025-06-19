@@ -264,6 +264,11 @@ export function VacanciesTab() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2 mb-2">
                           {getStatusBadge(vacancy.status)}
+                          {vacancy.isFeatured && (
+                            <Badge variant="secondary" className="text-xs bg-yellow-100 text-yellow-800 border-yellow-200">
+                              ⭐
+                            </Badge>
+                          )}
                           <div className="flex items-center space-x-1 text-xs text-muted-foreground">
                             <Eye className="w-3 h-3" />
                             <span>{vacancy.viewCount}</span>
@@ -280,6 +285,12 @@ export function VacanciesTab() {
                             <DollarSign className="w-3 h-3" />
                             <span>{formatSalary(vacancy.salary)}</span>
                           </div>
+                          {vacancy.paymentPeriodDays && (
+                            <div className="flex items-center space-x-1">
+                              <Clock className="w-3 h-3" />
+                              <span>{vacancy.paymentPeriodDays}д</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-col space-y-1 ml-2">
@@ -423,6 +434,19 @@ export function VacanciesTab() {
                             })}
                           </span>
                         </div>
+                        {selectedVacancy.paymentPeriodDays && (
+                          <div className="flex items-center space-x-2">
+                            <DollarSign className="w-4 h-4 text-muted-foreground" />
+                            <span className="text-foreground">{selectedVacancy.paymentPeriodDays} дней для заработка</span>
+                          </div>
+                        )}
+                        {selectedVacancy.isFeatured && (
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                              ⭐ Особенная вакансия
+                            </Badge>
+                          </div>
+                        )}
                       </div>
                     </div>
 

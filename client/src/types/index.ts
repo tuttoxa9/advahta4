@@ -17,6 +17,8 @@ export interface Vacancy {
   benefits: string[];
   status: "active" | "deleted" | "draft";
   detailsUrl?: string;
+  paymentPeriodDays?: number; // число дней для заработка
+  isFeatured?: boolean; // особенная вакансия
   createdAt: Timestamp;
   updatedAt: Timestamp;
   deletedAt?: Timestamp;
@@ -61,6 +63,8 @@ export interface VacancyFormData {
   status: "active" | "draft";
   employment_type: string;
   detailsUrl?: string;
+  paymentPeriodDays?: number; // число дней для заработка
+  isFeatured?: boolean; // особенная вакансия
 }
 
 export interface CompanyFormData {

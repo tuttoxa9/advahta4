@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Plus, X } from "lucide-react";
 import { Vacancy, VacancyFormData } from "@/types";
@@ -37,7 +38,9 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
     benefits: [],
     status: "active",
     employment_type: "Вахтовый метод",
-    detailsUrl: ""
+    detailsUrl: "",
+    paymentPeriodDays: undefined,
+    isFeatured: false
   });
 
   const [newRequirement, setNewRequirement] = useState("");
@@ -60,7 +63,9 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
         benefits: vacancy.benefits,
         status: vacancy.status === "deleted" ? "draft" : vacancy.status,
         employment_type: vacancy.employment_type,
-        detailsUrl: vacancy.detailsUrl || ""
+        detailsUrl: vacancy.detailsUrl || "",
+        paymentPeriodDays: vacancy.paymentPeriodDays,
+        isFeatured: vacancy.isFeatured || false
       });
     } else {
       setFormData({
@@ -78,7 +83,9 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
         benefits: [],
         status: "active",
         employment_type: "Вахтовый метод",
-        detailsUrl: ""
+        detailsUrl: "",
+        paymentPeriodDays: undefined,
+        isFeatured: false
       });
     }
   }, [vacancy, isOpen]);
@@ -265,6 +272,37 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
               onChange={(e) => setFormData(prev => ({ ...prev, detailsUrl: e.target.value }))}
               className="mt-2 bg-muted border-border placeholder:text-muted-foreground/50"
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="paymentPeriodDays" className="text-muted-foreground">Количество дней для заработка</Label>
+              <Input
+                id="paymentPeriodDays"
+                type="number"
+                placeholder="Например: 30"
+                value={formData.paymentPeriodDays || ""}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  paymentPeriodDays: e.target.value ? Number(e.target.value) : undefined
+                }))}
+                className="mt-2 bg-muted border-border"
+                min="1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="isFeatured" className="text-muted-foreground">Особенная вакансия</Label>
+              <div className="flex items-center space-x-2 mt-2">
+                <Switch
+                  id="isFeatured"
+                  checked={formData.isFeatured || false}
+                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isFeatured: checked }))}
+                />
+                <Label htmlFor="isFeatured" className="text-sm text-muted-foreground">
+                  {formData.isFeatured ? "Да" : "Нет"}
+                </Label>
+              </div>
+            </div>
           </div>
 
           <div>
