@@ -5,6 +5,7 @@ export interface Vacancy {
   title: string;
   company: string;
   location: string;
+  country: "belarus" | "russia"; // страна: Беларусь или Россия
   salary: {
     min: number;
     max: number;
@@ -51,6 +52,7 @@ export interface VacancyFormData {
   title: string;
   company: string;
   location: string;
+  country: "belarus" | "russia"; // страна: Беларусь или Россия
   experience: "Не требуется" | "От 1 года" | "От 3 лет";
   salary: {
     min: number | "";

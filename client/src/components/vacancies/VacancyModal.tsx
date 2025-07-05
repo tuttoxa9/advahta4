@@ -27,6 +27,7 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
     title: "",
     company: "",
     location: "",
+    country: "belarus",
     experience: "Не требуется",
     salary: {
       min: "",
@@ -52,6 +53,7 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
         title: vacancy.title,
         company: vacancy.company,
         location: vacancy.location,
+        country: vacancy.country || "belarus",
         experience: vacancy.experience,
         salary: {
           min: vacancy.salary.min || "",
@@ -72,6 +74,7 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
         title: "",
         company: "",
         location: "",
+        country: "belarus",
         experience: "Не требуется",
         salary: {
           min: "",
@@ -205,6 +208,24 @@ export function VacancyModal({ isOpen, onClose, vacancy }: VacancyModalProps) {
                 required
               />
             </div>
+            <div>
+              <Label className="text-muted-foreground">Страна *</Label>
+              <Select
+                value={formData.country}
+                onValueChange={(value: any) => setFormData(prev => ({ ...prev, country: value }))}
+              >
+                <SelectTrigger className="mt-2 bg-muted border-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="belarus">Беларусь</SelectItem>
+                  <SelectItem value="russia">Россия</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <Label className="text-muted-foreground">Опыт работы</Label>
               <Select

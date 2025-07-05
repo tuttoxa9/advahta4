@@ -206,7 +206,7 @@ export function VacanciesTab() {
             </div>
 
             {/* Компактные фильтры */}
-            <div className="grid grid-cols-2 gap-2 mt-3">
+            <div className="grid grid-cols-3 gap-2 mt-3">
               <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
                 <SelectTrigger className="h-8 text-xs bg-muted/50 border-border/50">
                   <SelectValue placeholder="Статус" />
@@ -216,6 +216,16 @@ export function VacanciesTab() {
                   <SelectItem value="active">Активные</SelectItem>
                   <SelectItem value="draft">Черновики</SelectItem>
                   <SelectItem value="deleted">Удалённые</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={filters.country} onValueChange={(value) => setFilters(prev => ({ ...prev, country: value }))}>
+                <SelectTrigger className="h-8 text-xs bg-muted/50 border-border/50">
+                  <SelectValue placeholder="Страна" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Все страны</SelectItem>
+                  <SelectItem value="belarus">Беларусь</SelectItem>
+                  <SelectItem value="russia">Россия</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={filters.experience} onValueChange={(value) => setFilters(prev => ({ ...prev, experience: value }))}>
@@ -280,6 +290,11 @@ export function VacanciesTab() {
                           <div className="flex items-center space-x-1">
                             <MapPin className="w-3 h-3" />
                             <span>{vacancy.location}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs font-medium">
+                              {vacancy.country === "belarus" ? "🇧🇾 Беларусь" : "🇷🇺 Россия"}
+                            </span>
                           </div>
                           <div className="flex items-center space-x-1">
                             <DollarSign className="w-3 h-3" />
@@ -414,6 +429,11 @@ export function VacanciesTab() {
                         <div className="flex items-center space-x-2">
                           <MapPin className="w-4 h-4 text-muted-foreground" />
                           <span className="text-foreground">{selectedVacancy.location}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-foreground font-medium">
+                            {selectedVacancy.country === "belarus" ? "🇧🇾 Беларусь" : "🇷🇺 Россия"}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <DollarSign className="w-4 h-4 text-muted-foreground" />

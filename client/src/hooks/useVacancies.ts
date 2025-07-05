@@ -25,6 +25,7 @@ export const useVacancies = () => {
     company: "",
     experience: "",
     location: "",
+    country: "",
     search: ""
   });
   const { toast } = useToast();
@@ -42,6 +43,9 @@ export const useVacancies = () => {
     }
     if (filters.experience && filters.experience !== "all") {
       q = query(q, where("experience", "==", filters.experience));
+    }
+    if (filters.country && filters.country !== "all") {
+      q = query(q, where("country", "==", filters.country));
     }
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -249,11 +253,11 @@ export const useVacancies = () => {
       setLoading(true);
       const vacanciesRef = collection(db, "vacancies");
       const querySnapshot = await getDocs(vacanciesRef);
-      
-      const deletePromises = querySnapshot.docs.map(doc => 
+
+      const deletePromises = querySnapshot.docs.map(doc =>
         deleteDoc(doc.ref)
       );
-      
+
       await Promise.all(deletePromises);
 
       toast({
